@@ -1,0 +1,20 @@
+Index: app/src/main/java/com/coinplug/metadiumsample/MetadiumModule.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.coinplug.metadiumsample\n\nimport com.metadium.did.protocol.MetaDelegator\nimport com.metaidum.did.resolver.client.DIDResolverAPI\n\nobject MetadiumModule {\n    private const val KOSPO_DELEGATOR_URL = \"https://coaccount.kospo.co.kr:1443/bd\"\n    private const val KOSPO_NODE_URL = \"https://coaccount.kospo.co.kr:1443/bo\"\n    private const val KOSPO_DID_PREFIX = \"did:meta:kospo\"\n\n    //resolver https://coaccount.kospo.co.kr:1443/br/1.0\n\n    val delegator: MetaDelegator = MetaDelegator(KOSPO_DELEGATOR_URL, KOSPO_NODE_URL, KOSPO_DID_PREFIX)\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/coinplug/metadiumsample/MetadiumModule.kt b/app/src/main/java/com/coinplug/metadiumsample/MetadiumModule.kt
+--- a/app/src/main/java/com/coinplug/metadiumsample/MetadiumModule.kt	
++++ b/app/src/main/java/com/coinplug/metadiumsample/MetadiumModule.kt	
+@@ -10,6 +10,7 @@
+ 
+     //resolver https://coaccount.kospo.co.kr:1443/br/1.0
+ 
+-    val delegator: MetaDelegator = MetaDelegator(KOSPO_DELEGATOR_URL, KOSPO_NODE_URL, KOSPO_DID_PREFIX)
++    //val delegator: MetaDelegator = MetaDelegator(KOSPO_DELEGATOR_URL, KOSPO_NODE_URL, KOSPO_DID_PREFIX)
++    val delegator: MetaDelegator = MetaDelegator("https://testdelegator.metadium.com", "https://api.metadium.com/dev", "did:meta:testnet")
+ 
+ }
+\ No newline at end of file
