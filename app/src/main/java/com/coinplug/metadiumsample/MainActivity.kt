@@ -12,6 +12,7 @@ import com.coinplug.metadiumsample.data.local.prefs.AppPreference
 import com.coinplug.metadiumsample.databinding.ActivityMainBinding
 import com.metadium.did.MetadiumWallet
 import com.metadium.did.crypto.MetadiumKey
+import com.metadium.did.exception.DidException
 import com.metadium.did.protocol.MetaDelegator
 import com.metadium.did.verifiable.Verifier
 import com.metaidum.did.resolver.client.DIDResolverAPI
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                 null,  // credential identifier. nullable
                 Date(),  // issuance date. nullable
                 null,  // expiration date. nullable
-                wallet.did,
+                "did:b-space:000000000000000000000000000000000000000000000000000000000000002e",
                 mapOf("email" to "testmail@email.com") // claims
             )
 
@@ -251,13 +252,20 @@ class MainActivity : AppCompatActivity() {
 
             var isSuccess: Boolean = true
             var message: String = "검증 성공"
-            if (!verifier.verify(jwtToken)) {
-                isSuccess = false
-                message = "검증 실패"
 
-            } else if (jwtToken.jwtClaimsSet.expirationTime != null && jwtToken.jwtClaimsSet.expirationTime.time < Date().time) {
+            try {
+                if (!verifier.verify(jwtToken)) {
+                    isSuccess = false
+                    message = "검증 실패"
+
+                } else if (jwtToken.jwtClaimsSet.expirationTime != null && jwtToken.jwtClaimsSet.expirationTime.time < Date().time) {
+                    isSuccess = false
+                    message = "유효기간 초과"
+                }
+            } catch (didException: DidException) {
+                didException.printStackTrace()
                 isSuccess = false
-                message = "유효기간 초과"
+                message = didException.message?: ""
             }
 
             if (isSuccess)
